@@ -8,6 +8,10 @@ const Subject = new mongoose.Schema({
   code: {
     type: Number,
     required: true,
+  },
+  offering_branch: {
+    type: String,
+    required: true,
   }
 }, { timestamps: true });
 

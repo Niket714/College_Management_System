@@ -12,7 +12,10 @@ const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [selected, setSelected] = useState("Student");
+  const [otpSent, setOtpSent] = useState(false);
+  const [loginData, setLoginData] = useState({});
   const { register, handleSubmit } = useForm();
+
   const onSubmit = (data) => {
     if (data.login !== "" && data.password !== "") {
       const headers = {
@@ -23,9 +26,9 @@ const Login = () => {
           headers: headers,
         })
         .then((response) => {
-          navigate(`/${selected.toLowerCase()}`, {
-            state: { type: selected, loginid: response.data.loginid },
-          });
+          toast.success("Password verified! OTP sent.");
+          setOtpSent(true);
+          setLoginData(data); // Save login data for OTP verification
         })
         .catch((error) => {
           toast.dismiss();
@@ -35,6 +38,25 @@ const Login = () => {
     } else {
     }
   };
+
+  // Handle OTP Submission
+  const handleOtpSubmit = (otpData) => {
+    axios
+      .post(`${baseApiURL()}/${selected.toLowerCase()}/auth/verify-otp`, {
+        ...loginData,
+        otp: otpData.otp,
+      })
+      .then((response) => {
+        toast.success("Login Successful!");
+        navigate(`/${selected.toLowerCase()}`, {
+          state: { type: selected, loginid: response.data.loginid },
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response?.data?.message || "Invalid OTP!");
+      });
+  };
+
   return (
     <div className="bg-white h-[100vh] w-full flex justify-between items-center">
       <img
@@ -46,6 +68,8 @@ const Login = () => {
         <p className="text-3xl font-semibold pb-2 border-b-2 border-green-500">
           {selected && selected} Login
         </p>
+
+        {!otpSent ? (
         <form
           className="flex justify-center items-start flex-col w-full mt-10"
           onSubmit={handleSubmit(onSubmit)}
@@ -92,6 +116,25 @@ const Login = () => {
             </span>
           </button>
         </form>
+        ):(<form
+          className="flex justify-center items-start  flex-col w-full mt-10"
+          onSubmit={handleSubmit(handleOtpSubmit)}
+        >
+          <div className="flex flex-col w-[70%]">
+            <label className="mb-1" htmlFor="otp">Enter OTP</label>
+            <input
+              type="number"
+              id="otp"
+              required
+              className="bg-white border-2 border-gray-400 py-2 px-4 rounded-md w-full"
+              {...register("otp")}
+            />
+          </div>
+          <button className="bg-blue-500 btn-sm mt-5 text-white px-6 py-2 text-xl rounded-md hover:bg-blue-700 ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all flex justify-center items-center">
+            Verify OTP
+          </button>
+        </form>
+        )}
       </div>
       <div className="absolute top-4 right-4">
         <button

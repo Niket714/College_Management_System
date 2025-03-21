@@ -22,7 +22,8 @@ const getSubject = async (req, res) => {
 }
 
 const addSubject = async (req, res) => {
-    let { name, code } = req.body;
+    console.log(req.body);
+    let { name, code, offering_branch } = req.body;
     try {
         let subject = await Subject.findOne({ code });
         if (subject) {
@@ -33,6 +34,7 @@ const addSubject = async (req, res) => {
         await Subject.create({
             name,
             code,
+            offering_branch,
         });
         const data = {
             success: true,

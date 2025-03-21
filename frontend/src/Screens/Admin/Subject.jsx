@@ -8,11 +8,35 @@ const Subjects = () => {
   const [data, setData] = useState({
     name: "",
     code: "",
+    offering_branch: "",
   });
   const [selected, setSelected] = useState("add");
   const [subject, setSubject] = useState();
+  const [branch, setBranch] = useState();
   useEffect(() => {
     getSubjectHandler();
+  }, []);
+
+  const getBranchData = () => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    axios
+      .get(`${baseApiURL()}/branch/getBranch`, { headers })
+      .then((response) => {
+        if (response.data.success) {
+          setBranch(response.data.branches);
+        } else {
+          toast.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getBranchData();
   }, []);
 
   const getSubjectHandler = () => {
@@ -43,7 +67,7 @@ const Subjects = () => {
         toast.dismiss();
         if (response.data.success) {
           toast.success(response.data.message);
-          setData({ name: "", code: "" });
+          setData({ name: "", code: "" , offering_branch: "" });
           getSubjectHandler();
         } else {
           toast.error(response.data.message);
@@ -115,7 +139,7 @@ const Subjects = () => {
               className="w-full bg-blue-50 rounded border focus:border-dark-green focus:bg-secondary-light focus:ring-2 focus:ring-light-green text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
-          <div className="w-[40%]">
+          <div className="w-[40%] mb-4">
             <label htmlFor="name" className="leading-7 text-sm ">
               Enter Subject Name
             </label>
@@ -126,6 +150,26 @@ const Subjects = () => {
               onChange={(e) => setData({ ...data, name: e.target.value })}
               className="w-full bg-blue-50 rounded border focus:border-dark-green focus:bg-secondary-light focus:ring-2 focus:ring-light-green text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
+          </div>
+          <div className="w-[40%]">
+            <label htmlFor="offering_branch" className="leading-7 text-sm ">
+              Offered by which Branch
+            </label>
+            <select
+              id="offering_branch"
+              className="px-2 bg-blue-50 py-3 rounded-sm text-base w-full accent-blue-700 mt-1"
+              value={data.offering_branch}
+              onChange={(e) => setData({ ...data, offering_branch: e.target.value })}
+            >
+              <option defaultValue>-- Select --</option>
+              {branch?.map((branch) => {
+                return (
+                  <option value={branch.name} key={branch.name}>
+                    {branch.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <button
             className="mt-6 bg-blue-500 px-6 py-3 text-white"
