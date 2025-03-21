@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { loginHandler, registerHandler, updateHandler, deleteHandler } = require("../../controllers/Admin/credential.controller.js");
+const { loginHandler, verifyOtpHandler, registerHandler, updateHandler, deleteHandler } = require("../../controllers/Admin/credential.controller.js");
 
 router.post("/login", loginHandler);
+
+router.post("/verify-otp", verifyOtpHandler);
 
 router.post("/register", registerHandler);
 

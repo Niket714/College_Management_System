@@ -1,8 +1,22 @@
 const studentCredential = require("../../models/Students/credential.model.js");
+const studentData = require("../../models/Students/details.model.js");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
-const loginHandler = async (req, res) => {
+const otpStore = {}; // Temporary OTP storage (use Redis for production)
+
+// Configure Nodemailer
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // Sender email
+    pass: process.env.EMAIL_PASS, // App password
+  },
+});
+
+const   loginHandler = async (req, res) => {
     let { loginid, password } = req.body;
     try {
         let user = await studentCredential.findOne({ loginid });
@@ -21,10 +35,36 @@ const loginHandler = async (req, res) => {
                 .json({ success: false, message: "Wrong Credentials" });
         }
         
-        
+        // Generate OTP
+        const otp = crypto.randomInt(100000, 999999).toString();
+        otpStore[loginid] = { otp, expiresAt: Date.now() + 5 * 60 * 1000 }; // OTP expires in 5 minutes
+
+        let student = await studentData.findOne({ enrollmentNo: loginid }).exec();
+        // console.log(student);
+
+        // Send OTP via email
+        const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: student.email, // Ensure email exists in user model
+        subject: "Your OTP Code",
+        text: `Your OTP code is ${otp}. It expires in 5 minutes.`,
+        };
+
+        transporter.sendMail(mailOptions, (error) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ success: false, message: "Error sending OTP" });
+        }
+        res.json({
+            success: true,
+            message: "OTP sent to your email",
+            loginid: user.loginid,
+        });
+        });
+
         const data = {
             success: true,
-            message: "Login Successfull!",
+            message: "OTP sent to your email",
             loginid: user.loginid,
             id: user.id,
         };
@@ -35,6 +75,24 @@ const loginHandler = async (req, res) => {
     }
 }
 
+const verifyOtpHandler = async (req, res) => {
+    let { loginid, otp } = req.body;
+  
+    if (!otpStore[loginid]) {
+      return res.status(400).json({ success: false, message: "OTP expired or not found" });
+    }
+  
+    if (otpStore[loginid].otp !== otp) {
+      return res.status(400).json({ success: false, message: "Invalid OTP" });
+    }
+  
+    // OTP verification success, remove OTP from store
+    delete otpStore[loginid];
+  
+    res.json({ success: true, message: "Login successful!", loginid });
+};
+
+  
 const registerHandler = async (req, res) => {
     let { loginid, password } = req.body;
     try {
@@ -121,4 +179,4 @@ const deleteHandler = async (req, res) => {
     }
 }
 
-module.exports = { loginHandler, registerHandler, updateHandler, deleteHandler }
+module.exports = { loginHandler, verifyOtpHandler, registerHandler, updateHandler, deleteHandler }
