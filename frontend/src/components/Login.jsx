@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiLogIn } from "react-icons/fi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { baseApiURL } from "../baseUrl";
-
-
 
 const Login = () => {
   const navigate = useNavigate();
@@ -127,7 +125,7 @@ const Login = () => {
               id="otp"
               required
               className="bg-white border-2 border-gray-400 py-2 px-4 rounded-md w-full"
-              {...register("otp")}
+              {...register("otp" , { value: "" })}
             />
           </div>
           <button className="bg-blue-500 btn-sm mt-5 text-white px-6 py-2 text-xl rounded-md hover:bg-blue-700 ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all flex justify-center items-center">

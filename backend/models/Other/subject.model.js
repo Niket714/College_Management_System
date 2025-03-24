@@ -6,11 +6,15 @@ const Subject = new mongoose.Schema({
     required: true,
   },
   code: {
-    type: Number,
+    type: String,
     required: true,
   },
   offering_branch: {
     type: String,
+    required: true,
+  },
+  semester: {
+    type: Number,
     required: true,
   }
 }, { timestamps: true });
