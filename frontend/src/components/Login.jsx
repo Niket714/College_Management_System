@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiLogIn } from "react-icons/fi";
 import axios from "axios";
@@ -13,6 +13,7 @@ const Login = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [loginData, setLoginData] = useState({});
   const { register, handleSubmit } = useForm();
+  const [temporary , setTemporary] = useState(false);
 
   const onSubmit = (data) => {
     if (data.login !== "" && data.password !== "") {
@@ -24,9 +25,17 @@ const Login = () => {
           headers: headers,
         })
         .then((response) => {
-          toast.success("Password verified! OTP sent.");
-          setOtpSent(true);
-          setLoginData(data); // Save login data for OTP verification
+          if (response.data.message === "Temporary") {
+            setTemporary(true);
+            toast.success("Temporary login successful!");
+            navigate(`/${selected.toLowerCase()}`, {
+              state: { type: selected, loginid: response.data.loginid , temporary: true },
+            });
+          } else {
+            toast.success("Password verified! OTP sent.");
+            setOtpSent(true);
+            setLoginData(data); 
+          }
         })
         .catch((error) => {
           toast.dismiss();
@@ -46,8 +55,9 @@ const Login = () => {
       })
       .then((response) => {
         toast.success("Login Successful!");
+        setTemporary(false);
         navigate(`/${selected.toLowerCase()}`, {
-          state: { type: selected, loginid: response.data.loginid },
+          state: { type: selected, loginid: response.data.loginid , temporary: false},
         });
       })
       .catch((error) => {

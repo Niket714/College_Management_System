@@ -5,13 +5,14 @@ import { baseApiURL } from "../../baseUrl";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/actions";
-const Profile = () => {
+const Profile = (props) => {
   const [showPass, setShowPass] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shownewPassword, setShownewPassword] = useState(false);
   const router = useLocation();
   const [data, setData] = useState();
   const dispatch = useDispatch();
+  const [temporary , settemporary] = useState(false);
   const [password, setPassword] = useState({
     new: "",
     current: "",
@@ -30,21 +31,25 @@ const Profile = () => {
       )
       .then((response) => {
         if (response.data.success) {
+          settemporary(router.state.temporary);
           setData(response.data.user);
           dispatch(
             setUserData({
               fullname: `${response.data.user[0].firstName} ${response.data.user[0].middleName} ${response.data.user[0].lastName}`,
               employeeId: response.data.user[0].employeeId,
-            })
+            }),
+            props.setemployeeid(response.data.user[0].employeeId),
+            props.setTemporary(router.state.temporary),
           );
         } else {
           toast.error(response.data.message);
         }
+
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [router.state.loginid, router.state.type]);
+  }, [router.state.loginid, router.state.type , router.state.temporary]);
 
   const checkPasswordHandler = (e) => {
     e.preventDefault();
@@ -122,68 +127,74 @@ const Profile = () => {
                 Department: {data[0].department}
               </p>
             </div>
-            <button
-              className={`${
-                showPass ? "bg-red-100 text-red-600" : "bg-blue-600 text-white"
-              }  px-3 py-1 rounded mt-4`}
-              onClick={() => setShowPass(!showPass)}
-            >
-              {!showPass ? "Change Password" : "Close Change Password"}
-            </button>
-            {showPass && (
-              <form
-                className="mt-4 border-t-2 border-blue-500 flex flex-col justify-center items-start"
-                onSubmit={checkPasswordHandler}
+            {!temporary ? <>
+              <button
+                className={`${
+                  showPass ? "bg-red-100 text-red-600" : "bg-blue-600 text-white"
+                }  px-3 py-1 rounded mt-4`}
+                onClick={() => setShowPass(!showPass)}
               >
-                <div className="flex flex-col w-[70%] mt-3 relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password.current}
-                    onChange={(e) =>
-                      setPassword({ ...password, current: e.target.value })
-                    }
-                    placeholder="Current Password"
-                    className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4 pr-10"
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-
-                <div className="flex flex-col w-[70%] mt-3 relative">
-                  <input
-                    type={shownewPassword ? "text" : "password"}
-                    value={password.new}
-                    onChange={(e) =>
-                      setPassword({ ...password, new: e.target.value })
-                    }
-                    placeholder="New Password"
-                    className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4"
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
-                    onClick={() => setShownewPassword(!shownewPassword)}
-                  >
-                    {shownewPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-
-
-                
-                <button
-                  className="mt-4 hover:border-b-2 hover:border-blue-500 "
-                  onClick={checkPasswordHandler}
-                  type="submit"
+                {!showPass ? "Change Password" : "Close Change Password"}
+              </button>
+              {showPass && (
+                <form
+                  className="mt-4 border-t-2 border-blue-500 flex flex-col justify-center items-start"
+                  onSubmit={checkPasswordHandler}
                 >
-                  Change Password
-                </button>
-              </form>
-            )}
+                  <div className="flex flex-col w-[70%] mt-3 relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password.current}
+                      onChange={(e) =>
+                        setPassword({ ...password, current: e.target.value })
+                      }
+                      placeholder="Current Password"
+                      className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4 pr-10"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col w-[70%] mt-3 relative">
+                    <input
+                      type={shownewPassword ? "text" : "password"}
+                      value={password.new}
+                      onChange={(e) =>
+                        setPassword({ ...password, new: e.target.value })
+                      }
+                      placeholder="New Password"
+                      className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
+                      onClick={() => setShownewPassword(!shownewPassword)}
+                    >
+                      {shownewPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+
+
+                  
+                  <button
+                    className="mt-4 hover:border-b-2 hover:border-blue-500 "
+                    onClick={checkPasswordHandler}
+                    type="submit"
+                  >
+                    Change Password
+                  </button>
+                </form>
+              )}
+              </> : null}
+              
+            
+              
+            
           </div>
           <img
             src={process.env.REACT_APP_MEDIA_LINK + "/" + data[0].profile}

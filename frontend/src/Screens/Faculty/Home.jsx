@@ -9,11 +9,14 @@ import Material from "./Material";
 import Curriculum from "./Curriculum";
 import Marks from "./Marks";
 import Student from "./Student";
+import Temporary from "./Temporary";
 const Home = () => {
   const router = useLocation();
   const navigate = useNavigate();
   const [selectedMenu, setSelectedMenu] = useState("My Profile");
   const [load, setLoad] = useState(false);
+  const [employeeid , setemployeeid] = useState("");
+  const [temporary, setTemporary] = useState(false);
   useEffect(() => {
     if (router.state === null) {
       navigate("/");
@@ -27,7 +30,7 @@ const Home = () => {
         <>
           <Navbar />
           <div className="max-w-6xl mx-auto">
-            <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
+            <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-4">
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                   selectedMenu === "My Profile"
@@ -48,6 +51,17 @@ const Home = () => {
               >
                 Student Info
               </li>
+              
+              <li
+                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                  selectedMenu === "Notice"
+                    ? "border-b-2 pb-2 border-blue-500 bg-blue-100 rounded-sm"
+                    : "bg-blue-500 text-white hover:bg-blue-600 border-b-2 border-blue-500"
+                }`}
+                onClick={() => setSelectedMenu("Notice")}
+              >
+                Notice
+              </li>
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                   selectedMenu === "Upload Marks"
@@ -60,6 +74,19 @@ const Home = () => {
               </li>
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                  selectedMenu === "Temporary_Access"
+                    ? "border-b-2 pb-2 border-blue-500 bg-blue-100 rounded-sm"
+                    : "bg-blue-500 text-white hover:bg-blue-600 border-b-2 border-blue-500"
+                }`}
+                onClick={() => setSelectedMenu("Temporary_Access")}
+              >
+                Temporary Access
+              </li>
+            </ul>
+            <ul className="flex justify-evenly items-center gap-5 w-full mx-auto my-4">
+              
+              <li
+                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                   selectedMenu === "Timetable"
                     ? "border-b-2 pb-2 border-blue-500 bg-blue-100 rounded-sm"
                     : "bg-blue-500 text-white hover:bg-blue-600 border-b-2 border-blue-500"
@@ -67,16 +94,6 @@ const Home = () => {
                 onClick={() => setSelectedMenu("Timetable")}
               >
                 Timetable
-              </li>
-              <li
-                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
-                  selectedMenu === "Notice"
-                    ? "border-b-2 pb-2 border-blue-500 bg-blue-100 rounded-sm"
-                    : "bg-blue-500 text-white hover:bg-blue-600 border-b-2 border-blue-500"
-                }`}
-                onClick={() => setSelectedMenu("Notice")}
-              >
-                Notice
               </li>
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
@@ -103,8 +120,9 @@ const Home = () => {
             {selectedMenu === "Upload Marks" && <Marks />}
             {selectedMenu === "Material" && <Material />}
             {selectedMenu === "Notice" && <Notice />}
-            {selectedMenu === "My Profile" && <Profile />}
+            {selectedMenu === "My Profile" && <Profile setemployeeid={setemployeeid} setTemporary = {setTemporary}/>}
             {selectedMenu === "Curriculum" && <Curriculum />}
+            {selectedMenu === "Temporary_Access" && <Temporary  employeeid={employeeid} temporary={temporary} />}
             {selectedMenu === "Student Info" && <Student />}
           </div>
         </>
