@@ -101,42 +101,37 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full mx-auto my-8 flex justify-between items-start">
+    <div className="max-w-4xl mx-auto mt-10 p-8 bg-gradient-to-r from-[#27548A] to-[#410445] shadow-xl rounded-lg text-white font-poppins">
       {data && (
         <>
-          <div>
-            <p className="text-2xl font-semibold">
-              Hello {data.firstName} {data.middleName} {data.lastName}👋
-            </p>
-            <div className="mt-3">
-              <p className="text-lg font-normal mb-2">
-                Enrollment No: {data.enrollmentNo}
-              </p>
-              <p className="text-lg font-normal mb-2">Branch: {data.branch}</p>
-              <p className="text-lg font-normal mb-2">
-                Semester: {data.semester}
-              </p>
-              <p className="text-lg font-normal mb-2">
-                Phone Number: +91 {data.phoneNumber}
-              </p>
-              <p className="text-lg font-normal mb-2">
-                Email Address: {data.email}
-              </p>
+          <div className="flex items-center gap-8">
+             <img
+               src={process.env.REACT_APP_MEDIA_LINK + "/" + data.profile}
+               alt="student Profile"
+               className="h-40 w-40 object-cover rounded-lg shadow-lg"
+             />
+             <div>
+               <h2 className="text-3xl font-bold">Hello, {data.firstName || data[0]?.firstName} {data.middleName || data[0]?.middleName} {data.lastName || data[0]?.lastName} 👋</h2>
+               <p className="text-lg mt-2">ID: <span className="font-medium">{data.employeeId || data[0]?.employeeId || data.enrollmentNo}</span></p>
+               <p className="text-lg">Phone: <span className="font-medium">+91 {data.phoneNumber || data[0]?.phoneNumber}</span></p>
+               <p className="text-lg">Email: <span className="font-medium">{data.email || data[0]?.email}</span></p>
+               {data.branch && <p className="text-lg">Branch: <span className="font-medium">{data.branch}</span></p>}
+               {data.semester && <p className="text-lg">Semester: <span className="font-medium">{data.semester}</span></p>}
+               {data.post && <p className="text-lg">Post: <span className="font-medium">{data.post}</span></p>}
+               {data.department && <p className="text-lg">Department: <span className="font-medium">{data.department}</span></p>}
             </div>
             <button
-              className={`${
-                showPass ? "bg-red-100 text-red-600" : "bg-blue-600 text-white"
-              }  px-3 py-1 rounded mt-4`}
+              className={`mt-6 px-5 py-2 rounded-lg  text-black font-bold ${showPass ? "bg-white hover:bg-red-300 hover:text-[#7D0A0A]" : "bg-[#E8F9FF] hover:bg-[#410445] hover:text-white"}`}
               onClick={() => setShowPass(!showPass)}
             >
               {!showPass ? "Change Password" : "Close Change Password"}
             </button>
             {showPass && (
               <form
-                className="mt-4 border-t-2 border-blue-500 flex flex-col justify-center items-start"
+                className="mt-6 border-t pt-4"
                 onSubmit={checkPasswordHandler}
               >
-                <div className="flex flex-col w-[70%] mt-3 relative">
+                <div className="mb-4 relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password.current}
@@ -144,18 +139,18 @@ const Profile = () => {
                       setPassword({ ...password, current: e.target.value })
                     }
                     placeholder="Current Password"
-                    className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4 pr-10"
+                    className="w-full p-3 border rounded-lg bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
+                    className="absolute right-3 top-4 text-gray-800"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? "Hide" : "Show"}
                   </button>
                 </div>
 
-                <div className="flex flex-col w-[70%] mt-3 relative">
+                <div className="mb-4 relative">
                   <input
                     type={shownewPassword ? "text" : "password"}
                     value={password.new}
@@ -163,18 +158,19 @@ const Profile = () => {
                       setPassword({ ...password, new: e.target.value })
                     }
                     placeholder="New Password"
-                    className="px-3 py-1 border-2 border-blue-500 outline-none rounded mt-4"
+                    className="w-full p-3 border rounded-lg bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 mt-4"
+                    className="absolute right-3 top-4 text-gray-800"
                     onClick={() => setShownewPassword(!shownewPassword)}
                   >
                     {shownewPassword ? "Hide" : "Show"}
                   </button>
                 </div>
+                
                 <button
-                  className="mt-4 hover:border-b-2 hover:border-blue-500"
+                  className="w-full bg-[#E8F9FF] text-black font-bold hover:bg-[black] hover:text-white  py-2 rounded-lg transition duration-300"
                   onClick={checkPasswordHandler}
                   type="submit"
                 >
@@ -183,11 +179,7 @@ const Profile = () => {
               </form>
             )}
           </div>
-          <img
-            src={process.env.REACT_APP_MEDIA_LINK + "/" + data.profile}
-            alt="student profile"
-            className="h-[240px] w-[240px] object-cover rounded-lg shadow-md"
-          />
+          
         </>
       )}
     </div>

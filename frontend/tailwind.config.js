@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend:  {
+      fontFamily: {
+        lavishlyYours: ['"Lavishly Yours"', "cursive"],
+        greatVibes: ['"Great Vibes"', "cursive"]
+      }
+    },
   },
   plugins: [],
 };
