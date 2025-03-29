@@ -19,8 +19,6 @@ const Home = () => {
   const [load, setLoad] = useState(false);
   const [employeeid , setemployeeid] = useState("");
   const [temporary, setTemporary] = useState(false);
-  const [employeeid , setemployeeid] = useState("");
-  const [temporary, setTemporary] = useState(false);
   useEffect(() => {
     if (router.state === null) {
       navigate("/");
@@ -136,9 +134,7 @@ const Home = () => {
             {selectedMenu === "Material" && <Material />}
             {selectedMenu === "Notice" && <Notice />}
             {selectedMenu === "My Profile" && <Profile setemployeeid={setemployeeid} setTemporary = {setTemporary}/>}
-            {selectedMenu === "My Profile" && <Profile setemployeeid={setemployeeid} setTemporary = {setTemporary}/>}
             {selectedMenu === "Curriculum" && <Curriculum />}
-            {selectedMenu === "Temporary_Access" && <Temporary  employeeid={employeeid} temporary={temporary} />}
             {selectedMenu === "Temporary_Access" && <Temporary  employeeid={employeeid} temporary={temporary} />}
             {selectedMenu === "Student Info" && <Student />}
             {selectedMenu === "Assignment" && <AssignmentDashboard />}

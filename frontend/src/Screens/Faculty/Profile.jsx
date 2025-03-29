@@ -6,14 +6,12 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/actions";
 const Profile = (props) => {
-const Profile = (props) => {
   const [showPass, setShowPass] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shownewPassword, setShownewPassword] = useState(false);
   const router = useLocation();
   const [data, setData] = useState();
   const dispatch = useDispatch();
-  const [temporary , settemporary] = useState(false);
   const [temporary , settemporary] = useState(false);
   const [password, setPassword] = useState({
     new: "",
@@ -34,7 +32,6 @@ const Profile = (props) => {
       .then((response) => {
         if (response.data.success) {
           settemporary(router.state.temporary);
-          settemporary(router.state.temporary);
           setData(response.data.user);
           dispatch(
             setUserData({
@@ -43,9 +40,7 @@ const Profile = (props) => {
             }),
             props.setemployeeid(response.data.user[0].employeeId),
             props.setTemporary(router.state.temporary),
-            }),
-            props.setemployeeid(response.data.user[0].employeeId),
-            props.setTemporary(router.state.temporary),
+          
           );
         } else {
           toast.error(response.data.message);
@@ -57,8 +52,6 @@ const Profile = (props) => {
         console.error(error);
       });
   }, [router.state.loginid, router.state.type , router.state.temporary]);
-  }, [router.state.loginid, router.state.type , router.state.temporary]);
-
   const checkPasswordHandler = (e) => {
     e.preventDefault();
     const headers = {
