@@ -37,6 +37,8 @@ app.use("/api/branch", require("./routes/Other Api/branch.route"));
 app.use("/api/curriculum", require("./routes/Other Api/curriculum.route"));
 app.use("/api/assignments", require("./routes/Other Api/assignment.route"));
 
+app.use("/api/notify-security" , require("./routes/Other Api/notifysecurity.route"));
+
 // app.use("/api/evaluation", require("./routes/Other Api/evaluation.route"));
 
 app.listen(port, () => {
