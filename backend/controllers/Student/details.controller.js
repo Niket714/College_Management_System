@@ -1,5 +1,6 @@
 const studentDetails = require("../../models/Students/details.model.js")
 const nodemailer = require("nodemailer");
+const Subject = require("../../models/Other/subject.model");
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
@@ -42,8 +43,6 @@ const addDetails = async (req, res) => {
             });
         }
         user = await studentDetails.create({ ...req.body, profile: req.file.filename });
-
-        console.log(req.body);
         // Send OTP via email
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -124,6 +123,21 @@ const deleteDetails = async (req, res) => {
     }
 }
 
+const getStudentsBySubject = async (req, res) => {
+    try {
+      const { subjectId } = req.params;
+      let subject = await Subject.findOne({ _id : subjectId });
+ 
+    // Find students who have this subjectId in their subjects array
+    const students = await studentDetails.find({ branch: subject.offering_branch , semester : subject.semester }).select("firstName middleName lastName enrollmentNo");
+
+      res.json({ success: true, students, message: "Students fetched successfully" });
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      res.status(500).json({ success: false, message: "Failed to fetch students." });
+    }
+  };
+
 const getCount = async (req, res) => {
     try {
         let user = await studentDetails.count(req.body);
@@ -140,4 +154,4 @@ const getCount = async (req, res) => {
     }
 }
 
-module.exports = { getDetails, addDetails, updateDetails, deleteDetails, getCount }
+module.exports = { getDetails,getStudentsBySubject, addDetails, updateDetails, deleteDetails, getCount }

@@ -25,4 +25,4 @@ const facultyCredential = new mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model("FacultyCredential", facultyCredential);
+module.exports = mongoose.model("Faculty Credential", facultyCredential);

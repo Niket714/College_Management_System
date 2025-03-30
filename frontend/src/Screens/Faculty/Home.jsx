@@ -11,6 +11,7 @@ import Marks from "./Marks";
 import Student from "./Student";
 import Temporary from "./Temporary";
 import AssignmentDashboard from "./AssignmentDashboard";
+import Attendance from "./Attendance";
 import UploadAssignment from "./UploadAssignment";
 const Home = () => {
   const router = useLocation();
@@ -46,14 +47,15 @@ const Home = () => {
               </li>
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
-                  selectedMenu === "Student Info"
+                  selectedMenu === "Timetable"
                     ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
                      : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
                 }`}
-                onClick={() => setSelectedMenu("Student Info")}
+                onClick={() => setSelectedMenu("Timetable")}
               >
-                Student Info
+                Timetable
               </li>
+              
               
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
@@ -65,6 +67,40 @@ const Home = () => {
               >
                 Notice
               </li>
+              
+              <li
+                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                  selectedMenu === "Material"
+                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
+                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
+                }`}
+                onClick={() => setSelectedMenu("Material")}
+              >
+                Material
+              </li>
+              <li
+                className={`text-center rounded-sm px-4 py-2 w-1/4 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                  selectedMenu === "Temporary_Access"
+                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
+                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
+                }`}
+                onClick={() => setSelectedMenu("Temporary_Access")}
+              >
+                Temporary Access
+              </li>
+            </ul>
+            <ul className="flex justify-evenly font-bold items-center gap-5 w-full mx-auto my-4">
+            <li
+                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                  selectedMenu === "Student Info"
+                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
+                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
+                }`}
+                onClick={() => setSelectedMenu("Student Info")}
+              >
+                Student Info
+              </li>
+              
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                   selectedMenu === "Upload Marks"
@@ -77,29 +113,6 @@ const Home = () => {
               </li>
               <li
                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
-                  selectedMenu === "Temporary_Access"
-                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
-                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
-                }`}
-                onClick={() => setSelectedMenu("Temporary_Access")}
-              >
-                Temporary Access
-              </li>
-            </ul>
-            <ul className="flex justify-evenly font-bold items-center gap-5 w-full mx-auto my-4">
-              
-              <li
-                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
-                  selectedMenu === "Timetable"
-                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
-                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
-                }`}
-                onClick={() => setSelectedMenu("Timetable")}
-              >
-                Timetable
-              </li>
-              <li
-                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                   selectedMenu === "Curriculum"
                     ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
                      : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
@@ -108,16 +121,7 @@ const Home = () => {
               >
                 Curriculum
               </li>
-              <li
-                className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
-                  selectedMenu === "Material"
-                    ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
-                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
-                }`}
-                onClick={() => setSelectedMenu("Material")}
-              >
-                Material
-              </li>
+              
               <li
                  className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
                    selectedMenu === "Assignment"
@@ -128,10 +132,21 @@ const Home = () => {
                >
                  Assignment
                </li>
+               <li
+                 className={`text-center rounded-sm px-4 py-2 w-1/5 cursor-pointer ease-linear duration-300 hover:ease-linear hover:duration-300 hover:transition-all transition-all ${
+                   selectedMenu === "Attendance"
+                     ? "border-b-2 pb-2 border-white text-white bg-[#183B4E] rounded-sm"
+                     : "bg-[#A1E3F9] text-[#3E3F5B] hover:bg-[#27548A] hover:text-white border-b-2 border-white"
+                 }`}
+                 onClick={() => setSelectedMenu("Attendance")}
+               >
+                 Attendance
+               </li>
             </ul>
             {selectedMenu === "Timetable" && <Timetable />}
             {selectedMenu === "Upload Marks" && <Marks />}
             {selectedMenu === "Material" && <Material />}
+            {selectedMenu === "Attendance" && <Attendance />}
             {selectedMenu === "Notice" && <Notice />}
             {selectedMenu === "My Profile" && <Profile setemployeeid={setemployeeid} setTemporary = {setTemporary}/>}
             {selectedMenu === "Curriculum" && <Curriculum />}

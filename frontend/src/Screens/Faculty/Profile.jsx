@@ -37,6 +37,7 @@ const Profile = (props) => {
             setUserData({
               fullname: `${response.data.user[0].firstName} ${response.data.user[0].middleName} ${response.data.user[0].lastName}`,
               employeeId: response.data.user[0].employeeId,
+              _id: response.data.user[0]._id,
             }),
             props.setemployeeid(response.data.user[0].employeeId),
             props.setTemporary(router.state.temporary),
