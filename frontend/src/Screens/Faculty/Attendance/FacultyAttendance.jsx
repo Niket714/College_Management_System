@@ -3,7 +3,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { baseApiURL } from "../../../baseUrl";
 import { useSelector } from "react-redux";
-import { Value } from "@radix-ui/react-select";
 
 const FacultyAttendance = () => {
   const [subjects, setSubjects] = useState([]);

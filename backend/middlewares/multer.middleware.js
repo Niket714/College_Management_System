@@ -1,12 +1,15 @@
 const multer = require("multer");
-const path = require("path");
+const path = require("path");   
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./media");
     },
     filename: function (req, file, cb) {
-        let filename = ""
+        console.log(req.body);
+        let filename = "";
+
+
         if (req.body?.type === "timetable") {
             filename = `Timetable_${req.body.semester}_Semester_${req.body.branch}.png`
         } else if (req.body?.type === "profile") {
@@ -17,7 +20,17 @@ const storage = multer.diskStorage({
             }
         } else if (req.body?.type === "material") {
             filename = `${req.body.title}_Subject_${req.body.subject}.pdf`
-        }
+        }else if (req.body?.type === "curriculum") {
+            filename = `Curriculum_${req.body.subject}.pdf`
+        }else if (req.body?.type === "assignments") {
+            filename = `Assignment_${req.body.title}_Subject_${req.body.subject}_${Date.now()}.pdf`;
+        } 
+        else if (req.body?.type === "submitassignments") {
+            filename = `Submit_Assignment_${req.body.title}_Subject_${req.body.subject}_${Date.now()}.pdf`;
+        } 
+
+        console.log(filename);
+
         cb(null, `${filename}`);
     }
 });

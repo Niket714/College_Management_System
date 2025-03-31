@@ -110,11 +110,16 @@ const SubmitAssignment = (id) => {
     if (!file) return setMessage("Please select a file");
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("submitassignments", file);
     formData.append("studentName", studentName);
     formData.append("enrollmentNo", enrollmentNo);
     formData.append("assignmentId", assignmentId);
     formData.append("deadline", deadline);
+    formData.append("type", "submitassignments");
+    
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
     if (navigator.onLine) {
       // Online submission

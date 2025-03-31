@@ -4,7 +4,7 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
  const mongoose = require("mongoose"); 
  
  // Get all assignments (for students & faculty)
- exports.getAssignments = async (req, res) => {
+ const getAssignments = async (req, res) => {
      try {
          const assignments = await FacultyAssignment.find();
          //console.log(assignments)
@@ -15,9 +15,9 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
  };
  
  // Faculty uploads an assignment
- exports.uploadAssignment = async (req, res) => {
+ const uploadAssignment = async (req, res) => {
      try {
-         //console.log("Received FormData:", req.body);
+         console.log("Received FormData:", req.body);
  
          const {
              professorId,
@@ -90,7 +90,7 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
  
  
  // Student submits an assignment
- exports.submitAssignment = async (req, res) => {
+ const submitAssignment = async (req, res) => {
      try {
          //console.log(req.body)
          const { studentName, enrollmentNo, assignmentId, deadline} = req.body;
@@ -112,7 +112,7 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
  
  
  // Get all submissions for a particular assignment
- exports.getAssignmentSubmissions = async (req, res) => {
+ const getAssignmentSubmissions = async (req, res) => {
      try {
          const { assignmentId } = req.params
          const submissions = await StudentAssignment.find({ assignmentId });
@@ -123,7 +123,7 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
      }
  };
  
- exports.assignGrade = async (req, res) => {
+ const assignGrade = async (req, res) => {
      try {
          const { grades } = req.body;
  
@@ -140,7 +140,7 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
  };
  
  // Get all submissions for a particular assignment
- exports.getGrade = async (req, res) => {
+ const getGrade = async (req, res) => {
      try {
          const { studentId, assignmentId} = req.body;
          //console.log(req.body)
@@ -153,3 +153,6 @@ const FacultyAssignment = require("../../models/Other/facultyAssignments.model")
          res.status(500).json({ message: "Error fetching submissions", error });
      }
  };
+
+
+ module.exports = { getAssignments, uploadAssignment , submitAssignment, getAssignmentSubmissions , assignGrade , getGrade};

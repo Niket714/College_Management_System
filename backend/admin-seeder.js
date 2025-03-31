@@ -36,7 +36,7 @@ const seedData = async () => {
             phoneNumber: "1234567890",
             gender: "Female",
             type: "Admin",
-            profile: "Faculty_Profile_1.jpg",
+            profile: "Admin_Profile_1.jpg",
         };
 
         await adminDetails.create(adminDetail);

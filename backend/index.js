@@ -35,7 +35,7 @@ app.use("/api/subject", require("./routes/Other Api/subject.route"));
 app.use("/api/marks", require("./routes/Other Api/marks.route"));
 app.use("/api/branch", require("./routes/Other Api/branch.route"));
 app.use("/api/curriculum", require("./routes/Other Api/curriculum.route"));
-app.use("/api/assignments", require("./routes/Other Api/assignment.route"));
+app.use("/api/assignments", require("./routes/Other Api/assignments.route"));
 
 app.use("/api/notify-security" , require("./routes/Other Api/notifysecurity.route"));
 app.use("/api/attendance" , require("./routes/Other Api/attendence.route"));

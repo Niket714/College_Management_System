@@ -16,7 +16,7 @@ import React, { useState } from "react";
    const [goback, setGoBack] = useState(false);
  
    const handleUpload = async () => {
-     if (!title || !subject || !deadline || !professorId || !totalPoints) {
+     if (!title || !subject || !deadline || !professorId || !totalPoints || !file) {
        return setMessage("All fields except description and file are required.");
      }
  
@@ -26,8 +26,9 @@ import React, { useState } from "react";
      formData.append("deadline", deadline);
      formData.append("totalPoints", totalPoints);
      formData.append("professorId", professorId);
+     formData.append("type", "assignments");
      if (description) formData.append("description", description); // ✅ Add only if provided
-     if (file) formData.append("file", file); // ✅ Add only if provided
+     if (file) formData.append("assignments", file); // ✅ Add only if provided
  
      setLoading(true);
      setMessage("");
