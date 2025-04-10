@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const path = require("path")
 connectToMongo();
+require("./utils/cleanupTodo");
 const port = 5000 || process.env.PORT;
 var cors = require("cors");
 
@@ -39,6 +40,7 @@ app.use("/api/assignments", require("./routes/Other Api/assignments.route"));
 
 app.use("/api/notify-security" , require("./routes/Other Api/notifysecurity.route"));
 app.use("/api/attendance" , require("./routes/Other Api/attendence.route"));
+app.use("/api/todo" , require("./routes/Other Api/todolist.route"));
 
 app.listen(port, () => {
   console.log(`Server Listening On http://localhost:${port}`);
