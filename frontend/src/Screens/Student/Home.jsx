@@ -12,6 +12,8 @@ import AssignmentDashboard from "./AssignmentDashboard";
 import Profile from "./Profile";
 import Todolist from "./todolist";
 import Itemsboard from "./Itemsboard";
+import Societies from "./societies";
+import Store from "./store";
 import { Toaster } from "react-hot-toast";
 import Sidebar, { SidebarItem } from "../../components/sidebar";
 import {
@@ -25,7 +27,9 @@ import {
   CheckSquare,
   Archive,
   ListTodo,
-  PackageSearch 
+  PackageSearch,
+  Network,
+  ShoppingBag
 } from "lucide-react";
 
 const Home = () => {
@@ -117,6 +121,18 @@ const Home = () => {
                 active={selectedMenu === "Itemsboard"}
                 onClick={() => setSelectedMenu("Itemsboard")}
               />
+              <SidebarItem
+                icon={<Network  size={20} />}
+                text="Societies"
+                active={selectedMenu === "Societies"}
+                onClick={() => setSelectedMenu("Societies")}
+              />
+              <SidebarItem
+                icon={<ShoppingBag  size={20} />}
+                text="Store"
+                active={selectedMenu === "store"}
+                onClick={() => setSelectedMenu("store")}
+              />
             </Sidebar>
             <div className="flex-1">
               <div className="max-w-6xl mx-auto py-4 px-6">
@@ -128,6 +144,8 @@ const Home = () => {
                 {selectedMenu === "Curriculum" && <Curriculum />}
                 {selectedMenu === "My Profile" && <Profile setBranch = {setBranch} setSemester = {setSemester} setStudentid = {setStudentid}/>}
                 {selectedMenu === "Attendance" && <Attendance />}
+                {selectedMenu === "store" && <Store />}
+                {selectedMenu === "Societies" && <Societies />}
                 {selectedMenu === "Itemsboard" && <Itemsboard />}
                 {selectedMenu === "Resources" && <Resources />}
                 {selectedMenu === "Assignment" && <AssignmentDashboard />}
